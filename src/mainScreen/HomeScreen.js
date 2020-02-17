@@ -2,7 +2,8 @@ import React,{Component} from 'react'
 import NavBar from'../component/NavBar';
 import Carosel from '../component/Carosel';
 import ShowManga from '../component/ShowManga';
-import FormPostChapter from '../component/FormPostChapter'
+import FormPostChapter from '../component/FormPostChapter';
+import FormPostTruyen from '../component/FormPostTruyen';
 class HomeScreen extends Component{
     
     render(){

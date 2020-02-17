@@ -3,6 +3,7 @@ import axios from '../axios';
 import NavBar from '../component/NavBar';
 import './DetailComic.css';
 import {Link} from 'react-router-dom';
+import FormPostChapter from '../component/FormPostChapter'
 
 class DetailComic extends Component{
     state={
@@ -52,6 +53,8 @@ class DetailComic extends Component{
         return(
             <div >
                 <NavBar/>
+                
+                
                {this.state.comic.length !=0 ?
                <div className="container">
                     <h4>{this.state.comic.name}</h4>
@@ -85,6 +88,7 @@ class DetailComic extends Component{
                </div>
                :"1"
             }
+            {this.state.comic.length !=0 ? <FormPostChapter mangaId={this.state.comic._id}/> :""}
             </div>
         )
     }

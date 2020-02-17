@@ -4,13 +4,14 @@ import ComicList from './ComicList' ;
 var array_length;
 class ShowManga extends Component{
     state={
-        comics:[]
+        comics:[],
+        comicNope:[]
     }
     heap_root=(input, i) =>{
         var left = 2 * i + 1;
         var right = 2 * i + 2;
         var max = i;
-        console.log(input[left])
+        // console.log(input[left])
         if (left < array_length && input[left].chapters[input[left].chapters.length-1].date < input[max].chapters[input[max].chapters.length-1].date) {
             max = left;
         }
@@ -43,12 +44,22 @@ class ShowManga extends Component{
           .then(res => {
             // console.log(res.data.data);
             var A=[];
+            var comicNoChapter=[]
+            var count=0;
             for(var i=0;i<res.data.data.length;i++){
+                if(res.data.data[i].chapters.length>0)
                 A[i]=res.data.data[i];
+                else{
+                    comicNoChapter[count]=res.data.data[i];
+                    count++;
+                }
             }
             // console.log(A)
             this.heapSortByDateOfNewChapter(A);
-            this.setState({comics:A})
+            this.setState({
+                comics:A,
+                comicNope:comicNoChapter
+            })
           })
           .catch(error => console.log(error));
     }
@@ -57,6 +68,7 @@ class ShowManga extends Component{
         return(
             <div>
                 {this.state.comics.length >0 ? <ComicList comics={this.state.comics}/>:""}
+                {this.state.comicNope.length >0? <ComicList comics={this.state.comicNope}/>:"" }
             </div>
         )
     }

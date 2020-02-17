@@ -5,7 +5,20 @@ import NavBar from '../component/NavBar';
 var array_length;
 class SearchByCategory extends Component{
     state={
-        comics:[]
+        comics:[]     ,
+        ages : ["32", "33", "16", "40"] ,
+        arr:[{
+            "name":["a","h","k","u","v"],
+            "age":1
+        },{
+            "name":"b",
+            "age":2
+        },
+        {
+            "name":["b","h"],
+            "age":3
+        }
+    ]
     }
     heap_root=(input, i) =>{
         var left = 2 * i + 1;
@@ -38,13 +51,21 @@ class SearchByCategory extends Component{
             this.heap_root(input, 0);
         }
     }
+
+
+    checkAdult=(age)=> {
+    return age == "16";
+    }
+    checkAdult2=(comic)=> {
+        return comic == "Action";
+    }
     componentDidMount() {
-        axios.get(`/api/manga?category=${this.props.match.params.cate}`)
+        var categoryToSearch=`${this.props.match.params.cate}`;
+        axios.get(`/api/manga`)
           .then(res => {
-            var A=[];
-            for(var i=0;i<res.data.data.length;i++){
-                A[i]=res.data.data[i];
-            }
+            console.log(this.state.arr)
+            console.log(res.data.data)
+            var A=res.data.data.filter(comic=>comic.category.includes(this.props.match.params.cate))
             this.heapSortByDateOfNewChapter(A);
             this.setState({comics:A})
           })

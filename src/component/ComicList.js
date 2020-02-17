@@ -20,9 +20,9 @@ class ComicList extends Component{
                     <p>view: {comic.view}</p>
                     <p>like: {comic.like}</p>
                     <p>follow: {comic.follow}</p>
-                    {/* <p>{new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit'}).format(new Date())}</p>
-                    <p>chapter {comic.chapters[comic.chapters.length-1].chapIndex}: {comic.chapters[comic.chapters.length-1].date.split("T")[0]}</p>
-                    <p>chapter {comic.chapters[comic.chapters.length-2].chapIndex}: {comic.chapters[comic.chapters.length-2].date.split("T")[0]}</p>  */}
+                    {/* <p>{new Intl.DateTimeFormat('en-US', {year: 'numeric', month: '2-digit',day: '2-digit'}).format(new Date())}</p> */}
+                    {comic.chapters.length>=1? <p>chapter {comic.chapters[comic.chapters.length-1].chapIndex}: {comic.chapters[comic.chapters.length-1].date.split("T")[0]}</p>: ""}
+                    {comic.chapters.length>=2? <p>chapter {comic.chapters[comic.chapters.length-2].chapIndex}: {comic.chapters[comic.chapters.length-2].date.split("T")[0]}</p> :""}
                 </Link>
             </div>               
         )

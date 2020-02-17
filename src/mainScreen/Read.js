@@ -12,11 +12,12 @@ class Read extends Component{
         .then(
             (res)=>(
                 this.setState({chapter:res.data.data}),
-                console.log(res.data.data.manga),
+                // console.log(res.data.data),
                     axios.put(`/api/manga/${res.data.data.manga._id}`,{
                         view: res.data.data.manga.view+1
+
+
                     }).then(
-                        
                     ).catch(
                     err=>console.log("err:" + err),
                     )

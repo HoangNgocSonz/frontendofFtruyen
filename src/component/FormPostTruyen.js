@@ -10,20 +10,22 @@ class FormPostTruyen extends Component {
     }
     
       handleSubmit = () => {
-        var a = document.getElementById("category").value;
-        var b= a.split(",");
+        var categoryString = document.getElementById("category").value;
+        var categoryList= categoryString.split(",");
+        var anotherNameString = document.getElementById("anotherName").value;
+        var anotherNameList=anotherNameString.split(",");
         axios.post('/api/manga',{
           name: document.getElementById("name").value,
           author: document.getElementById("author").value,
-          category: b,
+          category: categoryList,
           avatar: document.getElementById("avatar").value,
           description: document.getElementById("depcription").value,
           date: new Date(),
-          anotherName:document.getElementById("anotherName").value,
+          anotherName:anotherNameList,
         }).then(
             res=>{
               console.log("post: ")
-              console.log(res.data.data.name);
+              console.log(res.data.data);
             }   
           ).catch(
             err=>console.log("err:" + err),
