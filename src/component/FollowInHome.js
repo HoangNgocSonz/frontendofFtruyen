@@ -1,11 +1,13 @@
 import React,{Component} from 'react';
 import axios from'../axios';
 import ComicList from './ComicList' ;
+import Navbar from './NavBar';
+import SmallScreen from './SmallScreen';
 var array_length;
-class ShowManga extends Component{
+var listComic=[];
+class FollowInHome extends Component{
     state={
         comics:[],
-        comicNope:[]
     }
     heap_root=(input, i) =>{
         var left = 2 * i + 1;
@@ -40,42 +42,44 @@ class ShowManga extends Component{
         }
     }
     componentDidMount() {
-        axios.get('/api/manga', {
+        axios.get('/api/user', {
             headers: {
               'Authorization': `${document.cookie.replace(/(?:(?:^|.*;\s*)test2\s*\=\s*([^;]*).*$)|^.*$/, "$1")}`
             }
           })
           .then(res => {
-            var A=[];
-            var comicNoChapter=[]
-            var count=0;
-            for(var i=0;i<res.data.data.data.length;i++){
-                if(res.data.data.data[i].chapters.length>0)
-                A[i]=res.data.data.data[i];
-                else{
-                    comicNoChapter[count]=res.data.data.data[i];
-                    count++;
+              axios.get('/api/manga', {
+                headers: {
+                  'Authorization': `${document.cookie.replace(/(?:(?:^|.*;\s*)test2\s*\=\s*([^;]*).*$)|^.*$/, "$1")}`
                 }
-            }
-            this.heapSortByDateOfNewChapter(A);
-            this.setState({
-                comics:A,
-                comicNope:comicNoChapter
-            })
+              })
+              .then(res2 => {
+                for(var i=0;i<res2.data.data.data.length;i++){
+                    if(res2.data.data.data[i]._id.indexOf(res.data.mangaFolow))
+                    listComic[i]=res2.data.data.data[i]
+                }
+                this.heapSortByDateOfNewChapter(listComic);
+                this.setState({
+                  comics:listComic,
+                })
+              })
+              .catch(error =>{
+                console.log(error)}
+                );
+            
           })
           .catch(error =>{
             console.log(error)}
             );
     }
     render(){
-
+        
         return(
             <div>
-                {this.state.comics.length >0 ? <ComicList comics={this.state.comics}/>:""}
-                {this.state.comicNope.length >0? <ComicList comics={this.state.comicNope}/>:"" }
+                {this.state.comics.length >0 ? <SmallScreen comics={this.state.comics}/>:""}
             </div>
         )
     }
 }
 
-export default ShowManga
+export default FollowInHome

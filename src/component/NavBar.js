@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './NavBar.css';
 import {Link} from 'react-router-dom';
+import axios from'../axios';
 
 class NavBar extends Component{
     Category1=["Adult","Adventure","Anime","Comedy","Comic","Doujinshi","Drama","Ecchi","Fantasy","Gender Bender"];
@@ -9,6 +10,17 @@ class NavBar extends Component{
     Category4=["Shounen Ai","Slice of Life","Smut","Soft Yaoi","Sports","Supernatural","Action"];
     
     componentDidMount=()=>{
+    }
+    dangNhap=()=>{
+        axios.post('/api/auth/login',{
+            email:"hoangson2609tyhh@gmail.com",
+            password:"123"
+        }).then(
+            res=>{
+                document.cookie = `test2=${res.data}`;
+            }
+        ).catch(err=>console.log("err: "+err))
+
     }
     render(){
         const cate1=this.Category1.map(
@@ -56,7 +68,9 @@ class NavBar extends Component{
                 <a class="nav-link" href="#">Hot <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Theo dõi</a>
+                <Link to={'follow'}>
+                    <a class="nav-link" href="#">Theo dõi</a>
+                </Link>
             </li>
             
             <li class="nav-item dropdown">
@@ -104,11 +118,17 @@ class NavBar extends Component{
                 <a class="nav-link" href="#">Bộ lọc</a>
             </li>
             </ul>
+            <div className="dang_nhap">
+                <button onClick={this.dangNhap}>
+                    đăng nhập
+                </button>
+            </div>
             <form class="form-inline my-2 my-lg-0">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"></input>
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
+        
         </nav>
                 )
             }

@@ -6,6 +6,7 @@ import FormPostChapter from './component/FormPostChapter';
 import DetailComic from './mainScreen/DetailComic';
 import Read from './mainScreen/Read';
 import SearchByCategory from './mainScreen/SearchByCategory';
+import Follow from './mainScreen/Follow';
 
 import {BrowserRouter, Route} from 'react-router-dom';
 
@@ -25,14 +26,14 @@ class App extends Component{
           />
   
           <Route
-            exact path='/:comicId'
+            exact path='/detail/:comicId'
               render={(props) =>{
                 return <DetailComic {...props} />}
               } 
           />
   
           <Route
-            exact path='/read/:chapterId'
+            exact path='/detail/read/:chapterId'
               render={(props) =>{
                 return <Read {...props}/>}
               } 
@@ -44,6 +45,13 @@ class App extends Component{
                 return <SearchByCategory {...props} key={this.getRandomInt(100)}/>}
               } 
           />  
+
+          <Route
+            exact path='/follow'
+              render={(props) =>{
+                return <Follow {...props}/>}
+              } 
+          />
           
         </div>
       </BrowserRouter>

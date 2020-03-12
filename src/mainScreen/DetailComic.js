@@ -18,13 +18,25 @@ class DetailComic extends Component{
           )
     }
 
-    updateFollow=()=>{
+    updateFollow=(_idManga)=>{
         axios.put(`/api/manga/${this.props.match.params.comicId}`,{
             follow: this.state.comic.follow+1
           }).then(
               res=>{
-                this.componentDidMount()
-              }   
+                axios.put(`/api/user`,{
+                  mangaFolow:_idManga
+                }, {
+                  headers: {
+                    'Authorization': `${document.cookie.replace(/(?:(?:^|.*;\s*)test2\s*\=\s*([^;]*).*$)|^.*$/, "$1")}`
+                  }
+                }).then(
+                        res=>{
+                            this.componentDidMount()
+                        }
+                    ).catch(
+                      err=>console.log("noi:" + err),
+                    )
+              }
             ).catch(
               err=>console.log("err:" + err),
             )
@@ -34,6 +46,7 @@ class DetailComic extends Component{
             like: this.state.comic.like+1
           }).then(
               res=>{
+                
                 this.componentDidMount()
               }   
             ).catch(
@@ -68,7 +81,7 @@ class DetailComic extends Component{
                             <p>tình trạng: {this.state.comic.status}</p>
                             <p>thể loại: {this.state.comic.category}</p>
                             <p>lượt xem: {this.state.comic.view}</p>
-                            <button onClick={this.updateFollow}>theo dõi</button>
+                            <button onClick={() => this.updateFollow(this.state.comic._id)}>theo dõi</button>
                              <p>{this.state.comic.follow} người theo dõi</p>
                             <p>thích: {this.state.comic.like}</p>
                             <div>

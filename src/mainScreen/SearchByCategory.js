@@ -61,11 +61,14 @@ class SearchByCategory extends Component{
     }
     componentDidMount() {
         var categoryToSearch=`${this.props.match.params.cate}`;
-        axios.get(`/api/manga`)
+        axios.get(`/api/manga`, {
+            headers: {
+              'Authorization': `${document.cookie.replace(/(?:(?:^|.*;\s*)test2\s*\=\s*([^;]*).*$)|^.*$/, "$1")}`
+            }
+          })
           .then(res => {
-            console.log(this.state.arr)
-            console.log(res.data.data)
-            var A=res.data.data.filter(comic=>comic.category.includes(this.props.match.params.cate))
+            console.log(res.data.data.data)
+            var A=res.data.data.data.filter(comic=>comic.category.includes(this.props.match.params.cate))
             this.heapSortByDateOfNewChapter(A);
             this.setState({comics:A})
           })
